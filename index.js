@@ -6,25 +6,22 @@ require('dotenv').config();
 
 //mongoose
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://bertzambiaservices:Mofyaalbert%402023@bertcluster.mx7xosx.mongodb.net/bert');
+const { route } = require('./route/UserRoutes');
+mongoose.connect('mongodb+srv://Bert:b123456@cluster0.naaxpd4.mongodb.net/bert');
 
 mongoose.connection.once('open',()=>{
-    console.log('mongoose connected');
+    console.log('mongoose mongoose.connected');
 });
 
 mongoose.connection.on('error',()=>{
-    console.log('Mongoose connection failed '+error);
+    console.log('mongoose connection failed'+error);
 });
 
-//user routes
-const userRoute = require('./route/UserRoute');
-app.use('/api',userRoute);
-
-//notification route
-const notifyRoute = require('./route/NotificationRoute');
-app.use('/api',notifyRoute);
+//route
+const UserRoutes = require('./route/UserRoutes');
+app.use('/api',UserRoutes);
 
 //server
 app.listen(process.env.PORT,()=>{
-    console.log(`Server is running on ${process.env.PORT}`);
+    console.log(`Server is runing on ${process.env.PORT}`);
 });
