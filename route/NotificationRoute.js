@@ -1,15 +1,28 @@
-const express = require('express');
-const user_route = express();
+const fcm_key = require('../config/fcm_key.json');
+const FCM = require('fcm-node');
 
-//bodyparser
-const bodyparser = require('body-parser');
-user_route.use(bodyparser.json());
-user_route.use(bodyparser.urlencoded({extended:true}));
+const notify = async (req, res) => {
+    var fcm = new FCM(fcm_key);
 
-//controller
-const notificationController = require('../controller/NotificationController');
+    var message = {
+    to:'BIFxZL0jfb3CS7mh85o2rzVDYG0wh4I0GoGy9aFOHo2SJDOw32S9fO6E2y5h-niINm2yPzaXggmAvb3xIz1oyoU',
+    Notification:{
+        title:"title 1 demo",
+        body:"body 1 demo"
+    }
+    };
 
-//routes
-user_route.get('/notify',NotificationController.notify);
+    fcm.send(message,function (err,response){
+    if(err){
+        console.log('Error sending fcm message'+err);
+    }else{
+        console.log("sent with message id: "+JSON.stringify(response));
+    }
+    })
+    
+}
 
-module.exports = user_route;
+
+module.exports = {
+    notify,
+}
